@@ -6,21 +6,16 @@ boolean bGameOver = false, lost = false;
 
 Cell[][] grid = new Cell[COLS][ROWS];
 
-Button flag;
-Button score;
-PImage flagIcon;
-PImage mine;
-
 void setup() {
   size(601, 661);
   
   imageMode(CENTER);
-  flagIcon = loadImage("icons/flag (1).png");
-  mine = loadImage("icons/mine.png");
+  Globals.flagIcon = loadImage("icons/flag (1).png");
+  Globals.mine = loadImage("icons/mine.png");
   
   for (int i = 0; i < COLS; i++) {
     for (int j = 0; j < ROWS; j++) {
-      grid[i][j] = new Cell(i, j, CELLSIZE, mine, flagIcon);
+      grid[i][j] = new Cell(i, j, CELLSIZE, Globals.mine, Globals.flagIcon);
     } 
   }
   for (int i = 0; i < COLS; i++) {
@@ -33,8 +28,9 @@ void setup() {
   }
   
   nonBeeCount = COLS * ROWS - beeCount;
-  flag = new Button("flag", false, 30, 10, 50, 30, flagIcon);
-  score = new Button("score", false, WIDTH - 110, 10, 80, 30);
+  
+  Globals.flag = new Button("flag", false, 30, 10, 50, 30, Globals.flagIcon);
+  Globals.score = new Button("score", false, WIDTH - 110, 10, 80, 30);
 }
 
 void gameOver() {
@@ -53,11 +49,11 @@ void gameOver() {
 
 
 void mousePressed() {
-  if (flag.contains(mouseX, mouseY)) {
-    flag.clicked = !flag.clicked;
+  if (Globals.flag.contains(mouseX, mouseY)) {
+    Globals.flag.clicked = !Globals.flag.clicked;
   }
   
-  if (flag.clicked) {
+  if (Globals.flag.clicked) {
     for (int i = 0; i < COLS; i++) {
       for (int j = 0; j < ROWS; j++) {
         Cell cell = grid[i][j];
@@ -72,10 +68,12 @@ void mousePressed() {
         for (int j = 0; j < ROWS; j++) {
           Cell cell = grid[i][j];
           if (cell.contains(mouseX, mouseY)) {
-            cell.reveal();
-            
-            if (grid[i][j].bee || countRevealed == nonBeeCount) {
-              gameOver();
+            if (!Globals.flag.clicked && !cell.flagged) {
+              cell.reveal();
+              
+              if (grid[i][j].bee || countRevealed == nonBeeCount) {
+                gameOver();
+              }
             }
           }
         } 
@@ -86,8 +84,8 @@ void mousePressed() {
 
 void draw() {  
   background(225);
-  flag.show();
-  score.show();
+  Globals.flag.show();
+  Globals.score.show();
   
   for (int i = 0; i < COLS; i++) {
     for (int j = 0; j < ROWS; j++) {
