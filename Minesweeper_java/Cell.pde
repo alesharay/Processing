@@ -2,10 +2,8 @@ class Cell {
   
   int i, j, x, y, w, neighborCount;
   boolean revealed, bee, flagged;
-  PImage mine;
-  PImage flag;
   
-  Cell(int i, int j, int w, PImage mine, PImage flag) {
+  Cell(int i, int j, int w) {
     this.i = i;
     this.j = j;
     this.x = i * w;
@@ -15,8 +13,6 @@ class Cell {
     revealed = false;
     flagged = false;
     bee = random(1) < 0.2;
-    this.mine = mine;
-    this.flag = flag;
   }
   
   void show() {
@@ -29,7 +25,7 @@ class Cell {
       addFlag();
     } else if (revealed)
       if (bee) {
-        image(mine, x + w / 2, y + w / 2, w - (w / 2), w - (w / 2));
+        image(Globals.mine, x + w / 2, y + w / 2, w - (w / 2), w - (w / 2));
       } else {
       fill(160);
       rect(this.x, this.y, this.w, this.w);
@@ -82,7 +78,7 @@ class Cell {
   
   void addFlag() {
     
-    image(flag, x + w / 2, y + w / 2, w - w / 2, w - w / 2);    
+    image(Globals.flagIcon, x + w / 2, y + w / 2, w - w / 2, w - w / 2);    
   }
   
   
@@ -91,7 +87,7 @@ class Cell {
   }
   
   void reveal() { 
-    if (!bGameOver)
+    if (!Globals.bGameOver)
       countRevealed++;
     revealed = true; 
     

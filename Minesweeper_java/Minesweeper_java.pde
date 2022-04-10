@@ -2,7 +2,6 @@ int WIDTH = 600, HEIGHT = 600;
 int CELLSIZE = 60;
 int COLS = WIDTH / CELLSIZE, ROWS = HEIGHT / CELLSIZE;
 int beeCount = 0, nonBeeCount = 0, countRevealed = 0;
-boolean bGameOver = false, lost = false;
 
 Cell[][] grid = new Cell[COLS][ROWS];
 
@@ -12,10 +11,12 @@ void setup() {
   imageMode(CENTER);
   Globals.flagIcon = loadImage("icons/flag (1).png");
   Globals.mine = loadImage("icons/mine.png");
+  Globals.happyFace = loadImage("icons/happy.png");
+  Globals.sadFace = loadImage("icons/sad.png");
   
   for (int i = 0; i < COLS; i++) {
     for (int j = 0; j < ROWS; j++) {
-      grid[i][j] = new Cell(i, j, CELLSIZE, Globals.mine, Globals.flagIcon);
+      grid[i][j] = new Cell(i, j, CELLSIZE);
     } 
   }
   for (int i = 0; i < COLS; i++) {
@@ -29,18 +30,19 @@ void setup() {
   
   nonBeeCount = COLS * ROWS - beeCount;
   
-  Globals.flag = new Button("flag", false, 30, 10, 50, 30, Globals.flagIcon);
-  Globals.score = new Button("score", false, WIDTH - 110, 10, 80, 30);
+  Globals.flag = new Button("flag", false, 40, 10, 40, 40);
+  Globals.score = new Button("score", false, WIDTH - 120, 10, 80, 40);
+  Globals.reset = new Button("reset", false, WIDTH / 2 - 20, 10, 40, 40);
 }
 
 void gameOver() {
-  bGameOver = true;
+  Globals.bGameOver = true;
   for (Cell[] cells : grid) {
     for (Cell cell : cells) {
       if (countRevealed != nonBeeCount)
-        lost = true;
+        Globals.lost = true;
       
-      if (cell.bee && lost) {
+      if (cell.bee && Globals.lost) {
         cell.reveal();
       } 
     }
@@ -63,7 +65,7 @@ void mousePressed() {
       }
     }
   } else {
-    if (!bGameOver) {
+    if (!Globals.bGameOver) {
       for (int i = 0; i < COLS; i++) {
         for (int j = 0; j < ROWS; j++) {
           Cell cell = grid[i][j];
@@ -86,6 +88,7 @@ void draw() {
   background(225);
   Globals.flag.show();
   Globals.score.show();
+  Globals.reset.show();
   
   for (int i = 0; i < COLS; i++) {
     for (int j = 0; j < ROWS; j++) {
@@ -99,8 +102,8 @@ void draw() {
   
   textSize(75);
   fill(0);
-  if (bGameOver) {
-    if (lost) {
+  if (Globals.bGameOver) {
+    if (Globals.lost) {
       text("YOU LOSE!", 110, 300);
       println("YOULOSE!");
     } else{

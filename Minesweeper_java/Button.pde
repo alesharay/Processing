@@ -8,8 +8,6 @@ class Button {
   int w;
   int h;
   
-  PImage flag;
-  
   Button(String name, boolean clicked,
     int x, int y, int w, int h) {
     
@@ -20,15 +18,6 @@ class Button {
     this.w = w;
     this.h = h;
   }
-  
-  Button(String name, boolean clicked,
-    int x, int y, int w, int h, 
-    PImage flag) {
-    
-    this(name, clicked, x, y, w, h);
-    this.flag = flag;
-  }
-  
   
   boolean contains(int x, int y) {
     return  x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.w;
@@ -45,7 +34,7 @@ class Button {
     }
     rect(x, y, w, h);
     
-    image(flag, x + w / 2, y + h / 2, w, h);    
+    image(Globals.flagIcon, x + w / 2, y + h / 2, w, h);    
   }
   
   void showScore() {
@@ -58,9 +47,12 @@ class Button {
     
   }
   
-  
-  void reset() {
+  void showReset() {
+    stroke(0);
+    noFill();
+    rect(x, y, w, h);
     
+    image(Globals.happyFace, x + w / 2, y + h / 2, w, h);  
   }
   
   void showDifficulty() {
@@ -83,9 +75,8 @@ class Button {
         showDifficulty();
         break;
       case "reset":
-        reset();
+        showReset();
         break;
     } 
-    
   }
 }
