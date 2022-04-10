@@ -1,9 +1,11 @@
 class Cell {
   
   int i, j, x, y, w, neighborCount;
-  boolean revealed, bee;
+  boolean revealed, bee, flagged;
+  PImage mine;
+  PImage flag;
   
-  Cell(int i, int j, int w) {
+  Cell(int i, int j, int w, PImage mine, PImage flag) {
     this.i = i;
     this.j = j;
     this.x = i * w;
@@ -11,7 +13,10 @@ class Cell {
     this.w = w;
     neighborCount = 0;
     revealed = false;
+    flagged = false;
     bee = random(1) < 0.2;
+    this.mine = mine;
+    this.flag = flag;
   }
   
   void show() {
@@ -20,21 +25,66 @@ class Cell {
     
     rect(this.x, this.y, this.w, this.w);
     
-    if (revealed)
+    if (flagged) {
+      addFlag();
+    } else if (revealed)
       if (bee) {
-        fill(127);
-        ellipse(this.x + this.w * 0.5, this.y + this.w * 0.5, this.w * 0.5, this.w * 0.5);
-    } else {
+        image(mine, x + w / 2, y + w / 2, w - (w / 2), w - (w / 2));
+      } else {
       fill(160);
       rect(this.x, this.y, this.w, this.w);
       
       if (neighborCount != 0) {
         fill(0);
+        
+        switch(neighborCount) {
+          case 1:
+            //blue
+            fill(#0000FF);
+            break;
+          case 2:
+            //green
+            fill(#00FF00);
+            break;
+          case 3:
+            //red
+            fill(#FF0000);
+            break;
+          case 4:
+            //purple
+            fill(#800080);
+            break;
+          case 5:
+            //maroon
+            fill(#800000);
+            break;
+          case 6:
+            //turquoise
+            fill(#40E0D0);
+            break;
+          case 7:
+            //black
+            fill(0);
+            break;
+          case 8:
+            //gray
+            fill(127);
+            break;
+          
+        }
+        
+        
         textSize(30);
         text(this.neighborCount, this.x - 6 + this.w * 0.5, this.y + this.w - 18);
       }
     }
   }
+  
+  void addFlag() {
+    
+    image(flag, x + w / 2, y + w / 2, w - w / 2, w - w / 2);    
+  }
+  
   
   boolean contains(int x, int y) {
     return  x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.w;

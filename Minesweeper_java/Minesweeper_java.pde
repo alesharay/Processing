@@ -6,11 +6,21 @@ boolean bGameOver = false, lost = false;
 
 Cell[][] grid = new Cell[COLS][ROWS];
 
+Button flag;
+Button score;
+PImage flagIcon;
+PImage mine;
+
 void setup() {
   size(601, 661);
+  
+  imageMode(CENTER);
+  flagIcon = loadImage("icons/flag (1).png");
+  mine = loadImage("icons/mine.png");
+  
   for (int i = 0; i < COLS; i++) {
     for (int j = 0; j < ROWS; j++) {
-      grid[i][j] = new Cell(i, j, CELLSIZE);
+      grid[i][j] = new Cell(i, j, CELLSIZE, mine, flagIcon);
     } 
   }
   for (int i = 0; i < COLS; i++) {
@@ -23,6 +33,8 @@ void setup() {
   }
   
   nonBeeCount = COLS * ROWS - beeCount;
+  flag = new Button("flag", false, 30, 10, 50, 30, flagIcon);
+  score = new Button("score", false, WIDTH - 110, 10, 80, 30);
 }
 
 void gameOver() {
@@ -41,24 +53,41 @@ void gameOver() {
 
 
 void mousePressed() {
-  if (!bGameOver) {
+  if (flag.contains(mouseX, mouseY)) {
+    flag.clicked = !flag.clicked;
+  }
+  
+  if (flag.clicked) {
     for (int i = 0; i < COLS; i++) {
       for (int j = 0; j < ROWS; j++) {
         Cell cell = grid[i][j];
         if (cell.contains(mouseX, mouseY)) {
-          cell.reveal();
-          
-          if (grid[i][j].bee || countRevealed == nonBeeCount) {
-            gameOver();
-          }
+          cell.flagged = !cell.flagged;
         }
-      } 
+      }
+    }
+  } else {
+    if (!bGameOver) {
+      for (int i = 0; i < COLS; i++) {
+        for (int j = 0; j < ROWS; j++) {
+          Cell cell = grid[i][j];
+          if (cell.contains(mouseX, mouseY)) {
+            cell.reveal();
+            
+            if (grid[i][j].bee || countRevealed == nonBeeCount) {
+              gameOver();
+            }
+          }
+        } 
+      }
     }
   }
 }
 
 void draw() {  
-  background(255);
+  background(225);
+  flag.show();
+  score.show();
   
   for (int i = 0; i < COLS; i++) {
     for (int j = 0; j < ROWS; j++) {
@@ -75,8 +104,8 @@ void draw() {
   if (bGameOver) {
     if (lost) {
       text("YOU LOSE!", 110, 300);
-      println("YOU LOSE!");
-    } else {
+      println("YOULOSE!");
+    } else{
       text("YOU WIN!", 110, 300);
       println("YOU WIN!");
     }
