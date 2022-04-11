@@ -1,11 +1,16 @@
 import controlP5.*;
 
 public void settings() {
-  reset();
-  size(Globals.WIDTH, Globals.HEIGHT + Globals.CELLSIZE);
+  // reset();
+  // size(Globals.WIDTH, Globals.HEIGHT + Globals.CELLSIZE);
 }
 
 void setup() {
+  surface.setResizable(true);
+  reset();
+  // size(Globals.WIDTH, Globals.HEIGHT + Globals.CELLSIZE);
+
+
   imageMode(CENTER);
   textAlign(CENTER);
   
@@ -54,6 +59,9 @@ void reset() {
             (Globals.expert == null && Globals.intermediate == null && Globals.beginner == null)) {
     setDifficulty("beginner");
   }
+
+  surface.setSize(Globals.WIDTH, Globals.HEIGHT);
+
 
   Globals.COLS = Globals.WIDTH / Globals.CELLSIZE; 
   Globals.ROWS = Globals.HEIGHT / Globals.CELLSIZE;
@@ -132,11 +140,11 @@ void reset() {
 
 void setDifficulty(String name) {
   switch(name) {
-    case "intermediate":
-      Globals.WIDTH = 800; Globals.HEIGHT = 800; Globals.CELLSIZE = 50;
-      break;
     case "expert":
-      Globals.WIDTH = 1500; Globals.HEIGHT = 800; Globals.CELLSIZE = 50;
+      Globals.WIDTH = 750; Globals.HEIGHT = 750; Globals.CELLSIZE = 50;
+      break;
+    case "intermediate":
+      Globals.WIDTH = 550; Globals.HEIGHT = 550; Globals.CELLSIZE = 50;
       break;
     case "beginner":
     default:
