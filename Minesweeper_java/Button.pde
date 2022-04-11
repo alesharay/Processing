@@ -26,7 +26,6 @@ class Button {
   void showFlag() {
     stroke(0);
     
-    
     if (clicked) {
       fill(130);      
     } else {
@@ -34,6 +33,7 @@ class Button {
     }
     rect(x, y, w, h);
     
+    mouseOver();
     image(Globals.flagIcon, x + w / 2, y + h / 2, w, h);    
   }
   
@@ -47,11 +47,19 @@ class Button {
     
   }
   
+  void mouseOver() {
+    if (contains(mouseX, mouseY)) {
+      fill(100);      
+      rect(x, y, w, h);
+    }
+  }
+  
   void showReset() {
     stroke(0);
     noFill();
     rect(x, y, w, h);
     
+    mouseOver();
     image(Globals.happyFace, x + w / 2, y + h / 2, w, h);  
   }
   
