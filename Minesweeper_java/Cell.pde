@@ -19,7 +19,7 @@ class Cell {
     stroke(0);
     noFill();
     
-    rect(this.x, this.y, this.w, this.w);
+    rect(x, y, w, w);
     
     if (flagged) {
       addFlag();
@@ -28,7 +28,7 @@ class Cell {
         image(Globals.mine, x + w / 2, y + w / 2, w - (w / 2), w - (w / 2));
       } else {
       fill(160);
-      rect(this.x, this.y, this.w, this.w);
+      rect(x, y, w, w);
       
       if (neighborCount != 0) {
         fill(0);
@@ -69,8 +69,8 @@ class Cell {
           
         }
         
-        textSize(30);
-        text(this.neighborCount, this.x - 6 + this.w * 0.5, this.y + this.w - 18);
+        textSize(w / 2);
+        text(neighborCount, x + w / 2, y + w / 2 + Globals.MARGIN_DOWN);
       }
     }
   }
@@ -114,7 +114,7 @@ class Cell {
     
     for (int xOff = -1; xOff <= 1; xOff++) {
       for (int yOff = -1; yOff <= 1; yOff++) {
-        if (this.i + xOff > - 1 && this.j + yOff > - 1 && this.i + xOff < 10 && this.j + yOff < 10) {
+        if (this.i + xOff > - 1 && this.j + yOff > - 1 && this.i + xOff < Globals.MARGIN_DOWN && this.j + yOff < Globals.MARGIN_DOWN) {
           Cell neighbor = Globals.grid[this.i + xOff][this.j + yOff];
           if (neighbor.bee) {
             neighborCount++;

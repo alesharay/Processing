@@ -39,8 +39,8 @@ class Button {
     rect(x, y, w, h);
     
     fill(#FF0033);
-    textSize(20);
-    text(Globals.beeCount, x + 7, y + 27); 
+    textSize(Globals.PADDING_DOWN);
+    text(Globals.beeCount, x + w / 2, y + h / 2 + Globals.MARGIN_DOWN);
   }
   
   void showScore() {

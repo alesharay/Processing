@@ -1,11 +1,13 @@
 import controlP5.*;
 
 void settings() {
-  size(Globals.WIDTH, Globals.HEIGHT);
+  size(Globals.WIDTH, Globals.HEIGHT + Globals.CELLSIZE);
 }
 
 void setup() {
   imageMode(CENTER);
+  textAlign(CENTER);
+  
   Globals.flagIcon = loadImage("icons/flag (1).png");
   Globals.mine = loadImage("icons/mine.png");
   Globals.happyFace = loadImage("icons/happy.png");
@@ -28,15 +30,15 @@ void setup() {
   
   Globals.nonBeeCount = Globals.COLS * Globals.ROWS - Globals.beeCount;
   
-  Globals.mineCountButton = new Button("mineCountButton", false, 100, 10, 40, 40);
-  Globals.flag = new Button("flag", false, 40, 10, 40, 40);
-  Globals.score = new Button("score", false, Globals.WIDTH - 120, 10, 80, 40);
-  Globals.reset = new Button("reset", false, Globals.WIDTH / 2 - 20, 10, 40, 40);
+  Globals.flag = new Button("flag", false, Globals.CELLSIZE - (Globals.MARGIN_DOWN * 2), Globals.MARGIN_DOWN, Globals.CELLSIZE - (Globals.MARGIN_DOWN * 2), Globals.CELLSIZE - (Globals.MARGIN_DOWN * 2));
+  Globals.mineCountButton = new Button("mineCountButton", false, Globals.CELLSIZE * 2, Globals.MARGIN_DOWN, Globals.CELLSIZE - (Globals.MARGIN_DOWN * 2), Globals.CELLSIZE - (Globals.MARGIN_DOWN * 2));
+  Globals.reset = new Button("reset", false, Globals.WIDTH / 2 - (Globals.MARGIN_DOWN * 2), Globals.MARGIN_DOWN, Globals.CELLSIZE - (Globals.MARGIN_DOWN * 2), Globals.CELLSIZE - (Globals.MARGIN_DOWN * 2));
+  Globals.score = new Button("score", false, Globals.WIDTH - (Globals.PADDING_UP - Globals.MARGIN_DOWN * 2), Globals.MARGIN_DOWN, Globals.CELLSIZE + (Globals.MARGIN_DOWN * 2), Globals.CELLSIZE - (Globals.MARGIN_DOWN * 2));
   
   Globals.cp5 = new ControlP5(this); 
   
   // add a dropdownlist at position (100,100)
-  Globals.droplist = Globals.cp5.addDropdownList("difficulty").setPosition(350, 10);
+  Globals.droplist = Globals.cp5.addDropdownList("difficulty").setPosition(Globals.WIDTH / 2 + (Globals.CELLSIZE - Globals.MARGIN_DOWN), Globals.MARGIN_DOWN);
   
   // add items to the dropdown list
   Globals.droplist.addItem("beginner", 0);
@@ -124,10 +126,10 @@ void gameOverText() {
   textSize(75);
   if (Globals.bGameOver) {
     if (Globals.lost) {
-      text("YOU LOSE!", 110, 300);
+      text("YOU LOSE!", Globals.WIDTH / 2, Globals.HEIGHT / 2);
       println("YOULOSE!");
     } else{
-      text("YOU WIN!", 110, 300);
+      text("YOU WIN!", Globals.WIDTH / 2, Globals.HEIGHT / 2);
       println("YOU WIN!");
     }
   }
