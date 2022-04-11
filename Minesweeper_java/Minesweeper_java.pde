@@ -16,7 +16,7 @@ void setup() {
 void draw() {  
   background(225);
 
-  frameRate(1);
+  // frameRate(1);
 
   Globals.beginner.show();
   Globals.intermediate.show();
@@ -31,9 +31,6 @@ void draw() {
       Globals.grid[i][j].show();
     } 
   }
-
-  println("countRevealed: " + Globals.countRevealed);
-  println("nonBeeCount: " + Globals.nonBeeCount);
   
   gameOverText();
 }
@@ -130,14 +127,15 @@ void reset() {
 
 void setDifficulty(String name) {
   switch(name) {
-    case "expert":
-      Globals.WIDTH = 750; Globals.HEIGHT = 750; Globals.CELLSIZE = 50;
+    case "beginner":
+    default:
+      Globals.WIDTH = 450; Globals.HEIGHT = 450; Globals.CELLSIZE = 50;
       break;
     case "intermediate":
       Globals.WIDTH = 550; Globals.HEIGHT = 550; Globals.CELLSIZE = 50;
       break;
-    case "beginner": default:
-      Globals.WIDTH = 450; Globals.HEIGHT = 450; Globals.CELLSIZE = 50;
+    case "expert":
+      Globals.WIDTH = 750; Globals.HEIGHT = 750; Globals.CELLSIZE = 50;
       break;
   }
 }
@@ -157,11 +155,11 @@ void gameOver() {
 }
 
 void mousePressed() {
-  if (Globals.beginner.contains(mouseX, mouseY)) {
-    if(!Globals.beginner.clicked) {
-      Globals.beginner.clicked = true;
+  if (Globals.expert.contains(mouseX, mouseY)) {
+    if(!Globals.expert.clicked) {
+      Globals.beginner.clicked = false;
       Globals.intermediate.clicked = false;
-      Globals.expert.clicked = false;
+      Globals.expert.clicked = true;
       reset();
     }
   }
@@ -175,11 +173,11 @@ void mousePressed() {
     }
   }
 
-  if (Globals.expert.contains(mouseX, mouseY)) {
-    if(!Globals.expert.clicked) {
-      Globals.beginner.clicked = false;
+  if (Globals.beginner.contains(mouseX, mouseY)) {
+    if(!Globals.beginner.clicked) {
+      Globals.beginner.clicked = true;
       Globals.intermediate.clicked = false;
-      Globals.expert.clicked = true;
+      Globals.expert.clicked = false;
       reset();
     }
   }

@@ -123,15 +123,4 @@ class Cell {
       } 
     }
   }
-  
-  // void reset() {
-  //   neighborCount = 0;
-  //   revealed = false;
-  //   flagged = false;
-  //   bee = random(1) < 0.2;
-    
-  //   stroke(0);
-  //   noFill();
-  //   rect(this.x, this.y, this.w, this.w);
-  // }
 }
