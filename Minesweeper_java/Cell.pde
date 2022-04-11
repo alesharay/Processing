@@ -96,7 +96,7 @@ class Cell {
   void floodFill() {
     for (int xOff = -1; xOff <= 1; xOff++) {
       for (int yOff = -1; yOff <= 1; yOff++) {
-        if (this.i + xOff > - 1 && this.j + yOff > - 1 && this.i + xOff < 10 && this.j + yOff < 10) {
+        if (this.i + xOff > - 1 && this.j + yOff > - 1 && this.i + xOff < Globals.ROWS && this.j + yOff < Globals.COLS) {
           Cell neighbor = Globals.grid[this.i + xOff][this.j + yOff];
           if (!neighbor.bee && !neighbor.revealed) {
             neighbor.reveal();
@@ -114,7 +114,7 @@ class Cell {
     
     for (int xOff = -1; xOff <= 1; xOff++) {
       for (int yOff = -1; yOff <= 1; yOff++) {
-        if (this.i + xOff > - 1 && this.j + yOff > - 1 && this.i + xOff < Globals.MARGIN_DOWN && this.j + yOff < Globals.MARGIN_DOWN) {
+        if (this.i + xOff > - 1 && this.j + yOff > - 1 && this.i + xOff < Globals.COLS && this.j + yOff < Globals.ROWS) {
           Cell neighbor = Globals.grid[this.i + xOff][this.j + yOff];
           if (neighbor.bee) {
             neighborCount++;
@@ -124,14 +124,14 @@ class Cell {
     }
   }
   
-  void reset() {
-    neighborCount = 0;
-    revealed = false;
-    flagged = false;
-    bee = random(1) < 0.2;
+  // void reset() {
+  //   neighborCount = 0;
+  //   revealed = false;
+  //   flagged = false;
+  //   bee = random(1) < 0.2;
     
-    stroke(0);
-    noFill();
-    rect(this.x, this.y, this.w, this.w);
-  }
+  //   stroke(0);
+  //   noFill();
+  //   rect(this.x, this.y, this.w, this.w);
+  // }
 }

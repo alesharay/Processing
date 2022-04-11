@@ -1,8 +1,6 @@
 class Button {
   String name;
-  
   boolean clicked;
-  
   int x, y, w, h;
   
   Button(String name, boolean clicked, int x, int y, int w, int h) {
@@ -40,7 +38,7 @@ class Button {
     
     fill(#FF0033);
     textSize(Globals.PADDING_DOWN);
-    text(Globals.beeCount, x + w / 2, y + h / 2 + Globals.MARGIN_DOWN);
+    text(Globals.beeCount, x + w / 2, y + w / 2 + Globals.MARGIN_DOWN);
   }
   
   void showScore() {
@@ -73,17 +71,26 @@ class Button {
     }
   }
   
-  void reset() {
-    this.clicked = false;
-    image(Globals.happyFace, x + w / 2, y + h / 2, w, h);  
-  }
-  
   void showDifficulty() {
+    String label = (name == "beginner" ? "B" : name == "intermediate" ? "I" : "E");
+
+    stroke(0);
     
+    if (clicked) {
+      fill(130);      
+    } else {
+      noFill();
+    }
+    rect(x, y, w, h);
+    
+    mouseOver();
+
+    fill(#FF0033);
+    textSize(w / 2);
+    text(label, x + w / 2, y + w / 2 + Globals.MARGIN_DOWN);
   }
   
   void show() {
-    
     switch(name) {
       case "flag":
         showFlag();
@@ -94,7 +101,9 @@ class Button {
       case "timer":
         showTimer();
         break;
-      case "difficulty":
+      case "beginner":
+      case "intermediate":
+      case "expert":
         showDifficulty();
         break;
       case "reset":
