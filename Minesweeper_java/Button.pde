@@ -32,6 +32,17 @@ class Button {
     image(Globals.flagIcon, x + w / 2, y + h / 2, w, h);    
   }
   
+  void showMineCount() {
+    stroke(0);
+    
+    fill(200);      
+    rect(x, y, w, h);
+    
+    fill(#FF0033);
+    textSize(20);
+    text(Globals.beeCount, x + 7, y + 27); 
+  }
+  
   void showScore() {
     stroke(0);
     fill(200);
@@ -88,6 +99,9 @@ class Button {
         break;
       case "reset":
         showReset();
+        break;
+      case "mineCountButton":
+        showMineCount();
         break;
     } 
   }
