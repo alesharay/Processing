@@ -51,13 +51,6 @@ class Button {
     
   }
   
-  void mouseOver() {
-    if (contains(mouseX, mouseY)) {
-      fill(100);      
-      rect(x, y, w, h);
-    }
-  }
-  
   void showReset() {
     stroke(0);
     noFill();
@@ -77,9 +70,11 @@ class Button {
     stroke(0);
     
     if (clicked) {
-      fill(130);      
+      fill(130);   
+      println(name + " clicked\n");
     } else {
       noFill();
+      println(name + " not clicked\n");
     }
     rect(x, y, w, h);
     
@@ -88,6 +83,13 @@ class Button {
     fill(#FF0033);
     textSize(w / 2);
     text(label, x + w / 2, y + w / 2 + Globals.MARGIN_DOWN);
+  }
+
+  void mouseOver() {
+    if (contains(mouseX, mouseY)) {
+      fill(100);      
+      rect(x, y, w, h);
+    }
   }
   
   void show() {

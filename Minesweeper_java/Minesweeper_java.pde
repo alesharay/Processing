@@ -1,15 +1,8 @@
 import controlP5.*;
 
-public void settings() {
-  // reset();
-  // size(Globals.WIDTH, Globals.HEIGHT + Globals.CELLSIZE);
-}
-
 void setup() {
   surface.setResizable(true);
   reset();
-  // size(Globals.WIDTH, Globals.HEIGHT + Globals.CELLSIZE);
-
 
   imageMode(CENTER);
   textAlign(CENTER);
@@ -22,7 +15,9 @@ void setup() {
 
 void draw() {  
   background(225);
-  // frameRate(1);
+
+  frameRate(1);
+
   Globals.beginner.show();
   Globals.intermediate.show();
   Globals.expert.show();
@@ -44,20 +39,13 @@ void draw() {
 }
 
 void reset() {
-  // boolean difficultySelected = (Globals.beginner != null && Globals.beginner.clicked) || (Globals.intermediate != null && Globals.intermediate.clicked) || (Globals.expert != null && Globals.expert.clicked);
-  // println("difficulty: " + (!difficultySelected ? "not selected" : Globals.beginner.clicked ? Globals.beginner.name : Globals.intermediate.clicked ? Globals.intermediate.name : Globals.expert.name));
-
-  // println("Globals.expert != null && Globals.expert.clicked: " + (Globals.expert != null && Globals.expert.clicked));
-  // println("Globals.intermediate != null && Globals.intermediate.clicked: " + (Globals.intermediate != null && Globals.intermediate.clicked));
-  // println("Globals.beginner != null && Globals.beginner.clicked: " + (Globals.beginner != null && Globals.beginner.clicked));
-
-  if(Globals.expert != null && Globals.expert.clicked) {
-    setDifficulty("expert"); 
+  if ((Globals.beginner != null && Globals.beginner.clicked) || 
+      (Globals.expert == null && Globals.intermediate == null && Globals.beginner == null)) {
+    setDifficulty("beginner");
   } else if(Globals.intermediate != null && Globals.intermediate.clicked) {
     setDifficulty("intermediate");
-  } else if ((Globals.beginner != null && Globals.beginner.clicked) || 
-            (Globals.expert == null && Globals.intermediate == null && Globals.beginner == null)) {
-    setDifficulty("beginner");
+  } else if(Globals.expert != null && Globals.expert.clicked) {
+    setDifficulty("expert"); 
   }
 
   surface.setSize(Globals.WIDTH, Globals.HEIGHT);
@@ -88,7 +76,6 @@ void reset() {
   Globals.nonBeeCount = Globals.COLS * Globals.ROWS - Globals.beeCount;
   
   Globals.POSX = Globals.WIDTH / Globals.CELLSIZE;
-  // Globals.POSY = Globals.HEIGHT / Globals.CELLSIZE;
   Globals.PADDING_DOWN = Globals.CELLSIZE / 2;
   Globals.PADDING_UP = Globals.CELLSIZE * 2;
   Globals.MARGIN_DOWN = Globals.CELLSIZE / 5;
@@ -112,20 +99,23 @@ void reset() {
                             Globals.MARGIN_DOWN + Globals.PADDING_DOWN,
                             Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
   
-  Globals.beginner = new Button("beginner", false, 
+  boolean beginnerClicked = Globals.beginner != null ? Globals.beginner.clicked : false;
+  Globals.beginner = new Button("beginner", beginnerClicked, 
                                 Globals.WIDTH / 2 + Globals.CELLSIZE,
                                 Globals.MARGIN_DOWN,
                                 Globals.PADDING_DOWN,
                                 Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
 
 
-  Globals.intermediate = new Button("intermediate", false,
+  boolean intermediateClicked = Globals.intermediate != null ? Globals.intermediate.clicked : false;
+  Globals.intermediate = new Button("intermediate", intermediateClicked,
                                     Globals.WIDTH / 2 + Globals.CELLSIZE + (Globals.PADDING_DOWN),
                                     Globals.MARGIN_DOWN, 
                                     Globals.PADDING_DOWN,
                                     Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
 
-  Globals.expert = new Button("expert", false,
+  boolean expertClicked = Globals.expert != null ? Globals.expert.clicked : false;
+  Globals.expert = new Button("expert", expertClicked,
                               Globals.WIDTH / 2 + Globals.CELLSIZE + (Globals.PADDING_DOWN * 2),
                               Globals.MARGIN_DOWN,
                               Globals.PADDING_DOWN,
@@ -146,8 +136,7 @@ void setDifficulty(String name) {
     case "intermediate":
       Globals.WIDTH = 550; Globals.HEIGHT = 550; Globals.CELLSIZE = 50;
       break;
-    case "beginner":
-    default:
+    case "beginner": default:
       Globals.WIDTH = 450; Globals.HEIGHT = 450; Globals.CELLSIZE = 50;
       break;
   }
