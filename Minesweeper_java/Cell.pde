@@ -69,7 +69,6 @@ class Cell {
           
         }
         
-        
         textSize(30);
         text(this.neighborCount, this.x - 6 + this.w * 0.5, this.y + this.w - 18);
       }
@@ -77,10 +76,8 @@ class Cell {
   }
   
   void addFlag() {
-    
     image(Globals.flagIcon, x + w / 2, y + w / 2, w - w / 2, w - w / 2);    
   }
-  
   
   boolean contains(int x, int y) {
     return  x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.w;
@@ -88,7 +85,7 @@ class Cell {
   
   void reveal() { 
     if (!Globals.bGameOver)
-      countRevealed++;
+      Globals.countRevealed++;
     revealed = true; 
     
     if (this.neighborCount == 0) {
@@ -100,7 +97,7 @@ class Cell {
     for (int xOff = -1; xOff <= 1; xOff++) {
       for (int yOff = -1; yOff <= 1; yOff++) {
         if (this.i + xOff > - 1 && this.j + yOff > - 1 && this.i + xOff < 10 && this.j + yOff < 10) {
-          Cell neighbor = grid[this.i + xOff][this.j + yOff];
+          Cell neighbor = Globals.grid[this.i + xOff][this.j + yOff];
           if (!neighbor.bee && !neighbor.revealed) {
             neighbor.reveal();
           }
@@ -118,12 +115,23 @@ class Cell {
     for (int xOff = -1; xOff <= 1; xOff++) {
       for (int yOff = -1; yOff <= 1; yOff++) {
         if (this.i + xOff > - 1 && this.j + yOff > - 1 && this.i + xOff < 10 && this.j + yOff < 10) {
-          Cell neighbor = grid[this.i + xOff][this.j + yOff];
+          Cell neighbor = Globals.grid[this.i + xOff][this.j + yOff];
           if (neighbor.bee) {
             neighborCount++;
           }
         }
       } 
     }
+  }
+  
+  void reset() {
+    neighborCount = 0;
+    revealed = false;
+    flagged = false;
+    bee = random(1) < 0.2;
+    
+    stroke(0);
+    noFill();
+    rect(this.x, this.y, this.w, this.w);
   }
 }

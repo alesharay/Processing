@@ -3,14 +3,9 @@ class Button {
   
   boolean clicked;
   
-  int x;
-  int y;
-  int w;
-  int h;
+  int x, y, w, h;
   
-  Button(String name, boolean clicked,
-    int x, int y, int w, int h) {
-    
+  Button(String name, boolean clicked, int x, int y, int w, int h) {
     this.name = name;
     this.clicked = clicked;
     this.x = x;
@@ -60,6 +55,15 @@ class Button {
     rect(x, y, w, h);
     
     mouseOver();
+    if (Globals.lost) {
+      image(Globals.sadFace, x + w / 2, y + h / 2, w, h);  
+    } else {
+      image(Globals.happyFace, x + w / 2, y + h / 2, w, h);  
+    }
+  }
+  
+  void reset() {
+    this.clicked = false;
     image(Globals.happyFace, x + w / 2, y + h / 2, w, h);  
   }
   
