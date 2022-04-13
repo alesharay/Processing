@@ -32,7 +32,6 @@ class Button {
   
   void showMineCount() {
     stroke(0);
-    
     fill(200);      
     rect(x, y, w, h);
     
@@ -41,16 +40,21 @@ class Button {
     text(Globals.beeCount, x + w / 2, y + w / 2 + Globals.MARGIN_DOWN);
   }
   
-  void showScore() {
+  void showGameTimer() {
     stroke(0);
     fill(200);
-    rect(x, y, w, h);
+    rect(x, y, w, h); 
+
+    if(Globals.gameStarted && !Globals.bGameOver) {
+      if(frameCount % 60 == 0) { 
+        Globals.gameTimer++;
+      }    
+    }
+
+    fill(#FF0033);
+    textSize(Globals.PADDING_DOWN);
+    text(Globals.gameTimer, x + w / 2, y + h / 2 + Globals.MARGIN_DOWN);
   }
-  
-  void showTimer() {
-    
-  }
-  
   
   void showReset() {
     stroke(0);
@@ -61,7 +65,7 @@ class Button {
     if (Globals.lost) {
       image(Globals.sadFace, x + w / 2, y + h / 2, w, h);  
     } else {
-      image(Globals.happyFace, x + w / 2, y + h / 2, w, h);  
+      image(Globals.happyFace, x + 1.5 + w / 2, y + h / 2, w, h);  
     }
   }
   
@@ -96,11 +100,8 @@ class Button {
       case "flag":
         showFlag();
         break;
-      case "score":
-        showScore();
-        break;
       case "timer":
-        showTimer();
+        showGameTimer();
         break;
       case "beginner":
       case "intermediate":

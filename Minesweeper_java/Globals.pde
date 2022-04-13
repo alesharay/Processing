@@ -15,14 +15,17 @@ static class Globals {
   static int beeCount; 
   static int nonBeeCount;
   static int countRevealed;
+  static int gameTimer;
+
 
   static Cell[][] grid;
   
   static boolean bGameOver;
   static boolean lost;
+  static boolean gameStarted;
   
   static Button flag;
-  static Button score;
+  static Button timer;
   static Button reset;
   static Button mineCountButton;
   static Button beginner;

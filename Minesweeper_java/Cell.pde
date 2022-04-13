@@ -84,6 +84,7 @@ class Cell {
   }
   
   void reveal() { 
+    Globals.gameStarted = true;
     if (!Globals.bGameOver)
       Globals.countRevealed++;
     revealed = true; 

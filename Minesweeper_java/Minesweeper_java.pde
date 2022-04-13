@@ -20,7 +20,7 @@ void draw() {
   Globals.intermediate.show();
   Globals.expert.show();
   Globals.flag.show();
-  Globals.score.show();
+  Globals.timer.show();
   Globals.mineCountButton.show();
   Globals.reset.show();
 
@@ -33,122 +33,7 @@ void draw() {
   gameOverText();
 }
 
-void reset() {
-  if ((Globals.beginner != null && Globals.beginner.clicked) || 
-      (Globals.expert == null && Globals.intermediate == null && Globals.beginner == null)) {
-    setDifficulty("beginner");
-  } else if(Globals.intermediate != null && Globals.intermediate.clicked) {
-    setDifficulty("intermediate");
-  } else { // if(Globals.expert != null && Globals.expert.clicked) {
-    setDifficulty("expert"); 
-  }
-
-
-  surface.setSize(Globals.WIDTH, Globals.HEIGHT + Globals.CELLSIZE);
-
-  Globals.COLS = Globals.WIDTH / Globals.CELLSIZE; 
-  Globals.ROWS = Globals.HEIGHT / Globals.CELLSIZE;
-  Globals.grid = new Cell[Globals.COLS][Globals.ROWS];
-
-  for (int i = 0; i < Globals.COLS; i++) {
-    for (int j = 0; j < Globals.ROWS; j++) {
-      Globals.grid[i][j] = new Cell(i, j, Globals.CELLSIZE);
-    } 
-  }
-
-  Globals.beeCount = Globals.nonBeeCount = Globals.countRevealed = 0;
-  Globals.bGameOver = Globals.lost = false;
-
-  for (int i = 0; i < Globals.COLS; i++) {
-    for (int j = 0; j < Globals.ROWS; j++) {
-      Globals.grid[i][j].countNeighbors();
-      if (Globals.grid[i][j].bee) { 
-        Globals.beeCount++;
-      }
-    }
-  }
-  
-  Globals.nonBeeCount = Globals.COLS * Globals.ROWS - Globals.beeCount;
-  
-  Globals.POSX = Globals.WIDTH / Globals.CELLSIZE;
-  Globals.PADDING_DOWN = Globals.CELLSIZE / 2;
-  Globals.PADDING_UP = Globals.CELLSIZE * 2;
-  Globals.MARGIN_DOWN = Globals.CELLSIZE / 5;
-  Globals.MARGIN_UP = Globals.CELLSIZE + (Globals.MARGIN_DOWN * 2);
-
-  Globals.flag = new Button("flag", false,
-                            Globals.POSX,
-                            Globals.MARGIN_DOWN,
-                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN,
-                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
-
-  Globals.mineCountButton = new Button("mineCountButton", false, 
-                                      Globals.POSX + Globals.MARGIN_UP,
-                                      Globals.MARGIN_DOWN,
-                                      Globals.MARGIN_DOWN + Globals.PADDING_DOWN,
-                                      Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
-
-  Globals.reset = new Button("reset", false, 
-                            Globals.WIDTH / 2 - (Globals.MARGIN_DOWN * 2),
-                            Globals.MARGIN_DOWN,
-                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN,
-                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
-  
-  boolean beginnerClicked = Globals.beginner != null ? Globals.beginner.clicked : false;
-  Globals.beginner = new Button("beginner", beginnerClicked, 
-                                Globals.WIDTH / 2 + Globals.CELLSIZE,
-                                Globals.MARGIN_DOWN,
-                                Globals.PADDING_DOWN,
-                                Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
-
-
-  boolean intermediateClicked = Globals.intermediate != null ? Globals.intermediate.clicked : false;
-  Globals.intermediate = new Button("intermediate", intermediateClicked,
-                                    Globals.WIDTH / 2 + Globals.CELLSIZE + (Globals.PADDING_DOWN),
-                                    Globals.MARGIN_DOWN, 
-                                    Globals.PADDING_DOWN,
-                                    Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
-
-  boolean expertClicked = Globals.expert != null ? Globals.expert.clicked : false;
-  Globals.expert = new Button("expert", expertClicked,
-                              Globals.WIDTH / 2 + Globals.CELLSIZE + (Globals.PADDING_DOWN * 2),
-                              Globals.MARGIN_DOWN,
-                              Globals.PADDING_DOWN,
-                              Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
-  
-  Globals.score = new Button("score", false,
-                            Globals.WIDTH - (Globals.PADDING_UP - Globals.MARGIN_DOWN * 2),
-                            Globals.MARGIN_DOWN,
-                            Globals.CELLSIZE + (Globals.MARGIN_DOWN * 2),
-                            (Globals.CELLSIZE / 4 ) + (Globals.CELLSIZE / 2));
-}
-
-void setDifficultyClick(boolean b, boolean i, boolean e) {
-      Globals.beginner.clicked = b;
-      Globals.intermediate.clicked = i;
-      Globals.expert.clicked = e;
-      reset();
-}
-
 void mousePressed() {
-  if (Globals.beginner.contains(mouseX, mouseY)) {
-    if(!Globals.beginner.clicked) {
-      setDifficultyClick(true, false, false);
-    }
-  }
-
-  if (Globals.intermediate.contains(mouseX, mouseY)) {
-    if(!Globals.intermediate.clicked) {
-      setDifficultyClick(false, true, false);
-    }
-  }
-
-  if (Globals.expert.contains(mouseX, mouseY)) {
-    if(!Globals.expert.clicked) {
-      setDifficultyClick(false, false, true);
-    }
-  }
-
   if (Globals.reset.contains(mouseX, mouseY)) {
     reset();
   }
@@ -184,12 +69,36 @@ void mousePressed() {
       }
     }
   }
+
+  if (Globals.expert.contains(mouseX, mouseY)) {
+    if(!Globals.expert.clicked) {
+      setDifficultyClick(false, false, true);
+    }
+  }
+
+  if (Globals.beginner.contains(mouseX, mouseY)) {
+    if(!Globals.beginner.clicked) {
+      setDifficultyClick(true, false, false);
+    }
+  }
+
+  if (Globals.intermediate.contains(mouseX, mouseY)) {
+    if(!Globals.intermediate.clicked) {
+      setDifficultyClick(false, true, false);
+    }
+  }
+}
+
+void setDifficultyClick(boolean b, boolean i, boolean e) {
+      Globals.beginner.clicked = b;
+      Globals.intermediate.clicked = i;
+      Globals.expert.clicked = e;
+      reset();
 }
 
 void setDifficulty(String name) {
   switch(name) {
     case "beginner":
-    default:
       Globals.WIDTH = 450; Globals.HEIGHT = 450; Globals.CELLSIZE = 50;
       break;
     case "intermediate":
@@ -225,4 +134,93 @@ void gameOverText() {
       text("YOU WIN!", Globals.WIDTH / 2, Globals.HEIGHT / 2);
     }
   }
+}
+
+void reset() {
+
+  if ((Globals.expert == null && Globals.intermediate == null && Globals.beginner == null) ||
+      (Globals.beginner != null && Globals.beginner.clicked)) {
+    setDifficulty("beginner");
+  } else if(Globals.intermediate != null && Globals.intermediate.clicked) {
+    setDifficulty("intermediate");
+  } else if(Globals.expert != null && Globals.expert.clicked) {
+    setDifficulty("expert"); 
+  }
+
+  surface.setSize(Globals.WIDTH, (Globals.HEIGHT + Globals.CELLSIZE));
+
+  Globals.COLS = Globals.WIDTH / Globals.CELLSIZE; 
+  Globals.ROWS = Globals.HEIGHT / Globals.CELLSIZE;
+  Globals.grid = new Cell[Globals.COLS][Globals.ROWS];
+
+  for (int i = 0; i < Globals.COLS; i++) {
+    for (int j = 0; j < Globals.ROWS; j++) {
+      Globals.grid[i][j] = new Cell(i, j, Globals.CELLSIZE);
+    } 
+  }
+
+  Globals.beeCount = Globals.nonBeeCount = Globals.countRevealed = Globals.gameTimer = 0;
+  Globals.bGameOver = Globals.lost = Globals.gameStarted = false;
+
+  for (int i = 0; i < Globals.COLS; i++) {
+    for (int j = 0; j < Globals.ROWS; j++) {
+      Globals.grid[i][j].countNeighbors();
+      if (Globals.grid[i][j].bee) { 
+        Globals.beeCount++;
+      }
+    }
+  }
+
+  Globals.nonBeeCount = Globals.COLS * Globals.ROWS - Globals.beeCount;
+
+  Globals.POSX = Globals.WIDTH / Globals.CELLSIZE;
+  Globals.PADDING_DOWN = Globals.CELLSIZE / 2;
+  Globals.PADDING_UP = Globals.CELLSIZE * 2;
+  Globals.MARGIN_DOWN = Globals.CELLSIZE / 5;
+  Globals.MARGIN_UP = Globals.CELLSIZE + (Globals.MARGIN_DOWN * 2);
+
+  Globals.flag = new Button("flag", false,
+                            Globals.POSX,
+                            Globals.MARGIN_DOWN,
+                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN,
+                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
+
+  Globals.mineCountButton = new Button("mineCountButton", false, 
+                                      Globals.POSX + Globals.MARGIN_UP,
+                                      Globals.MARGIN_DOWN,
+                                      Globals.MARGIN_DOWN + Globals.PADDING_DOWN,
+                                      Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
+
+  Globals.reset = new Button("reset", false, 
+                            Globals.WIDTH / 2 - (Globals.MARGIN_DOWN * 2),
+                            Globals.MARGIN_DOWN,
+                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN,
+                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
+
+  boolean expertClicked = Globals.expert != null ? Globals.expert.clicked : false;
+  Globals.expert = new Button("expert", expertClicked,
+                              (Globals.WIDTH / 2) + Globals.CELLSIZE + (Globals.PADDING_DOWN * 2),
+                              Globals.MARGIN_DOWN,
+                              Globals.PADDING_DOWN,
+                              Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
+
+  boolean beginnerClicked = Globals.beginner != null ? Globals.beginner.clicked : false;
+  Globals.beginner = new Button("beginner", beginnerClicked, 
+                                (Globals.WIDTH / 2) + Globals.CELLSIZE,
+                                Globals.MARGIN_DOWN,
+                                Globals.PADDING_DOWN,
+                                Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
+
+  boolean intermediateClicked = Globals.intermediate != null ? Globals.intermediate.clicked : false;
+  Globals.intermediate = new Button("intermediate", intermediateClicked,
+                                    (Globals.WIDTH / 2) + Globals.CELLSIZE + Globals.PADDING_DOWN,
+                                    Globals.MARGIN_DOWN, 
+                                    Globals.PADDING_DOWN,
+                                    Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
+
+  Globals.timer = new Button("timer", false,
+                            Globals.WIDTH - (Globals.PADDING_UP - Globals.MARGIN_DOWN * 2),
+                            Globals.MARGIN_DOWN,
+                            Globals.CELLSIZE + (Globals.MARGIN_DOWN * 2),
+                            (Globals.CELLSIZE / 4 ) + (Globals.CELLSIZE / 2));
 }
