@@ -222,5 +222,5 @@ void reset() {
                             Globals.WIDTH - (Globals.PADDING_UP - Globals.MARGIN_DOWN * 2),
                             Globals.MARGIN_DOWN,
                             Globals.CELLSIZE + (Globals.MARGIN_DOWN * 2),
-                            (Globals.CELLSIZE / 4 ) + (Globals.CELLSIZE / 2));
+                            Globals.MARGIN_DOWN + Globals.PADDING_DOWN);
 }
